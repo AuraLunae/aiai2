@@ -17,7 +17,7 @@ umbrella-rain-project/
     └── Umbrella.obj
 ```
 
-セットアップ
+## セットアップ
 1. VS Codeをインストール(任意▶︎エディタはなんでもいい(最悪vimでも))
 2. このリポジトリをクローン
 3. uvをセットアップ
@@ -31,7 +31,7 @@ uv sync
 ```powershell
 uv run python umbrella_rain_v2.py
 ```
-6. 完了
+6. 完了  
 out/rain/　に全てのファイルが出力されるはずです。
 
 
