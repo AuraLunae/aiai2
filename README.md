@@ -6,7 +6,7 @@
 
 ## ファイル構成
 ```txt
-umbrella-rain-project/
+aiai2/
 ├── umbrella_rain_v2.py   # 本体(前処理・干渉解決・雨シミュレーション・映像・CSV)
 ├── rain_fx.py            # 映像合成エンジン(PyTorchを使用。GPU/CPUを自動選択)
 ├── soft_render.py        # CPUソフトレンダラ(Genesis描画のフォールバック兼 検証用)
