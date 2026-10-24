@@ -36,6 +36,31 @@ uv run python umbrella_rain_v2.py
 6. 完了  
 out/rain/　に全てのファイルが出力されるはずです。
 
+## 実際の実行のされ方(umbrella_rain_v2.pyを実行すると自動で動くので安心してください)
+```
+couple.obj / Umbrella.obj
+   │  obj_loader.py / fbx_loader.py(パーツ単位で読み込み)
+   ▼
+prep_model(前処理)
+   ├─ ゴミ・地面パーツ除去、いらない面を除去
+   ├─ couple : 上方向推定 → 単位推定(m/cm/mm) → 二人を検出(軸を x に、間を原点に、A/B分割)
+   └─ umbrella: 任意方向の回転対称軸を探索 → 上下判定 → 単位推定 → 握り位置を原点・軸を +z に
+   ▼
+傘の3Dモデルを加工：表面ボクセル殻(ピッチ1cm、1ボクセル太らせ) + 衝突判定・評価用の殻
+   ▼
+place(): 傘を θ 傾け、人との干渉が無い最小の持ち上げ量を探す
+   ▼
+RainSim(E個の角度を非同期処理を使って同時に実行します): 上空から一定量を投下 → 衝突判定 → 水量集計
+   ├─ 傘の縁からの滴下(スロット固定のプール)
+   └─ 傘なし(パーツでいうとbaseline)に対する濡れ率 + 想定誤差を算出
+   ▼
+映像(角度ごと)
+   ├─ ベース画像: Genesis(cam.render の rgb+depth) または soft_render(CPU) ← GPUがない時専用
+   └─ rain_fx.RainRenderer(GPU): 空・路面反射・霧 → 濡れ・波紋・飛沫 → 雨(被写界深度) → 動画を生成
+   ▼
+out/rain/ に mp4 / CSV / グラフ
+```
+
 ## 開発秘話
 もともと、Genesisをドローンのai学習(https://github.com/AuraLunae/drone-genesis-project) で使っていて、それをこのプロジェクトで使えないかと考えました。  
 Genesis worldは、高性能、高精度かつRust製なので軽いという、最高のパッケージなのでありがたく使っています。  
